@@ -6,8 +6,8 @@ import java.util.ArrayList;
 public class MCD {
 
 	public static void main(String[] args) {
-		BigInteger n1 = new BigInteger("12");
-		BigInteger n2 = new BigInteger("30");
+		BigInteger n1 = new BigInteger("4515");
+		BigInteger n2 = new BigInteger("675");
 		System.out.println(descomposicion(n1, n2));
 		System.out.println(euclides(n1, n2));
 
@@ -24,7 +24,7 @@ public class MCD {
 			// Si ninguno de los dos es divisible por el divisor, buscamos el siguiente
 			// numero primo
 			if (!zero.equals(n1.mod(divisor)) && !zero.equals(n2.mod(divisor))) {
-				divisor = divisor.nextProbablePrime();
+				divisor = siguientePrimo(divisor);
 				continue;
 			}
 			// Si el primer numero es divisible entre el divisor
@@ -72,6 +72,8 @@ public class MCD {
 		mcd = divisor;
 		// Mientras el resto sea distinto de cero no habremos encontrado el mcd
 		while(!zero.equals(dividendo.mod(divisor))) {
+			System.out.println("divisor"+divisor);
+			System.out.println("dividendo"+dividendo);
 			resultado = dividendo.divideAndRemainder(divisor);
 			divisor = resultado[0];
 			dividendo = resultado[1];
@@ -80,4 +82,19 @@ public class MCD {
 		return mcd;
 	}
 	
+
+	public static BigInteger siguientePrimo(BigInteger n){
+		boolean salir = false;
+		do{
+			salir = true;
+			n = n.add(new BigInteger("1"));
+			for (BigInteger i = new BigInteger("2"); n.divide(new BigInteger("2")).compareTo(i) > 0; i = i.add(new BigInteger("1"))) {
+				if (n.mod(i).equals(new BigInteger("0"))) {
+					salir = false;
+					break;
+				}
+			}
+		}while(!salir);
+		return n;
+	}
 }
