@@ -15,9 +15,10 @@ public class MCD {
 	public static BigInteger descomposicion (BigInteger n1, BigInteger n2) {
 		BigInteger divisor = new BigInteger("2");
 		BigInteger zero = new BigInteger("0");
+		BigInteger one = new BigInteger("1");
 		ArrayList<BigInteger> divisores1 = new ArrayList<BigInteger>(), divisores2 = new ArrayList<BigInteger>();
 		BigInteger mcd = new BigInteger("1");		
-		while(!n1.equals(divisor) || !n2.equals(divisor)) {
+		while(!n1.equals(one) || !n2.equals(one)) {
 			if(!zero.equals(n1.mod(divisor)) && !zero.equals(n2.mod(divisor))) {
 				divisor = divisor.nextProbablePrime();
 				continue;
@@ -33,8 +34,6 @@ public class MCD {
 				System.out.println("n2    "+divisor);
 			}
 		}
-		divisores1.add(divisor);
-		divisores2.add(divisor);
 		for(int i = 0, j  = 0; i < divisores1.size() && j < divisores2.size();) {
 			System.out.println(i+"       "+j);
 			if(divisores1.get(i).equals(divisores2.get(j))) {
