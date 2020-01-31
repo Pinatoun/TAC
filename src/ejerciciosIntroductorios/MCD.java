@@ -6,10 +6,10 @@ import java.util.ArrayList;
 public class MCD {
 
 	public static void main(String[] args) {
-		BigInteger n1 = new BigInteger("4515");
-		BigInteger n2 = new BigInteger("675");
-		System.out.println(descomposicion(n1, n2));
+		BigInteger n1 = new BigInteger("51386512");
+		BigInteger n2 = new BigInteger("94879483460336965498836");
 		System.out.println(euclides(n1, n2));
+		System.out.println(descomposicion(n1, n2));
 
 	}
 
@@ -59,8 +59,7 @@ public class MCD {
 
 	// Metodo de euclides para calcular el mcd
 	public static BigInteger euclides(BigInteger n1, BigInteger n2) {
-		BigInteger zero = new BigInteger("0"), mcd = new BigInteger("1"), divisor, dividendo;
-		BigInteger [] resultado;
+		BigInteger zero = new BigInteger("0"), divisor, dividendo, resto;
 		// Seleccionamos el mayor de los dos numeros como dividendo y el otro como divisor
 		if(n1.compareTo(n2) < 0) {
 			divisor = n1;
@@ -69,17 +68,13 @@ public class MCD {
 			divisor = n2;
 			dividendo = n1;
 		}else return n1; // Si son iguales devolvemos ese numero
-		mcd = divisor;
 		// Mientras el resto sea distinto de cero no habremos encontrado el mcd
 		while(!zero.equals(dividendo.mod(divisor))) {
-			System.out.println("divisor"+divisor);
-			System.out.println("dividendo"+dividendo);
-			resultado = dividendo.divideAndRemainder(divisor);
-			divisor = resultado[0];
-			dividendo = resultado[1];
-			mcd = dividendo;
+			resto = dividendo.mod(divisor);
+			dividendo = divisor;
+			divisor = resto;
 		}
-		return mcd;
+		return divisor;
 	}
 	
 
