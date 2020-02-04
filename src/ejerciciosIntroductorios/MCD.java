@@ -8,9 +8,9 @@ public class MCD {
 	public static void main(String[] args) {
 		BigInteger n1 = new BigInteger("51386512");
 		BigInteger n2 = new BigInteger("94879483460336965498836");
-		long time1 = System.nanoTime();
+		double time1 = System.nanoTime();
 		System.out.println(euclides(n1, n2));
-		long time2 = System.nanoTime();
+		double time2 = System.nanoTime();
 		System.out.println("Execution time for the euclides algorithm(miliseconds): "+((time2-time1)/1000000));
 		time1 = System.nanoTime();
 		System.out.println(descomposicion(n1, n2));
@@ -82,16 +82,19 @@ public class MCD {
 		return divisor;
 	}
 	
-
+	// Metodo que determina cual es el siguiente numero primo al proporcionado
 	public static BigInteger siguientePrimo(BigInteger n){
+		// Vamos sumando 1 al numero proporcionado hasta encontrar un numero primo
 		do{
 			n = n.add(new BigInteger("1"));
-		}while(!isPrimo1(n));
+		}while(!isPrimo2(n));
 		return n;
 	}
 
+	// Metodo que determina si un numero es primo con pasos de 1
 	public static boolean isPrimo1(BigInteger n) {
 		BigInteger zero = new BigInteger("0"), one = new BigInteger("1"), two = new BigInteger("2");
+		// Comprobamos si es divisible por algun numero desde 2 hasta n/2
 		for (BigInteger i = new BigInteger("2"); n.divide(two).compareTo(i) > 0; i = i.add(one)) {
 			if (n.mod(i).equals(zero)) {
 				return false;
@@ -100,9 +103,12 @@ public class MCD {
 		return true;
 	}
 
+	// Metodo que determina si un numero es primo con pasos de 2
 	public static boolean isPrimo2(BigInteger n) {
 		BigInteger zero = new BigInteger("0"), two = new BigInteger("2");
+		// Si es divisible por dos no es primo
 		if(n.divide(two).equals(zero)) return false;
+		// Comprobamos si es divisible por algun numero impar desde 3 hasta n/2
 		for (BigInteger i = new BigInteger("3"); n.divide(two).compareTo(i) > 0; i = i.add(two)) {
 			if (n.mod(i).equals(zero)) {
 				return false;
