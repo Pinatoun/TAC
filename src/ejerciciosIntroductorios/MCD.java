@@ -8,9 +8,14 @@ public class MCD {
 	public static void main(String[] args) {
 		BigInteger n1 = new BigInteger("51386512");
 		BigInteger n2 = new BigInteger("94879483460336965498836");
+		long time1 = System.nanoTime();
 		System.out.println(euclides(n1, n2));
+		long time2 = System.nanoTime();
+		System.out.println("Execution time for the euclides algorithm(miliseconds): "+((time2-time1)/1000000));
+		time1 = System.nanoTime();
 		System.out.println(descomposicion(n1, n2));
-
+		time2 = System.nanoTime();
+		System.out.println("Execution time for the descomposition algorithm (miliseconds): "+((time2-time1)/1000000));
 	}
 
 	public static BigInteger descomposicion(BigInteger n1, BigInteger n2) {
@@ -31,13 +36,13 @@ public class MCD {
 			if (zero.equals(n1.mod(divisor))) {
 				n1 = n1.divide(divisor);
 				divisores1.add(divisor);
-				System.out.println("n1    " + divisor);
+				//System.out.println("n1    " + divisor);
 			}
 			// Si el segundo numero es divisible entre el divisor
 			if (zero.equals(n2.mod(divisor))) {
 				n2 = n2.divide(divisor);
 				divisores2.add(divisor);
-				System.out.println("n2    " + divisor);
+				//System.out.println("n2    " + divisor);
 			}
 		}
 		// Recorremos las dos listas de divisores
@@ -79,17 +84,30 @@ public class MCD {
 	
 
 	public static BigInteger siguientePrimo(BigInteger n){
-		boolean salir = false;
 		do{
-			salir = true;
 			n = n.add(new BigInteger("1"));
-			for (BigInteger i = new BigInteger("2"); n.divide(new BigInteger("2")).compareTo(i) > 0; i = i.add(new BigInteger("1"))) {
-				if (n.mod(i).equals(new BigInteger("0"))) {
-					salir = false;
-					break;
-				}
-			}
-		}while(!salir);
+		}while(!isPrimo1(n));
 		return n;
+	}
+
+	public static boolean isPrimo1(BigInteger n) {
+		BigInteger zero = new BigInteger("0"), one = new BigInteger("1"), two = new BigInteger("2");
+		for (BigInteger i = new BigInteger("2"); n.divide(two).compareTo(i) > 0; i = i.add(one)) {
+			if (n.mod(i).equals(zero)) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	public static boolean isPrimo2(BigInteger n) {
+		BigInteger zero = new BigInteger("0"), two = new BigInteger("2");
+		if(n.divide(two).equals(zero)) return false;
+		for (BigInteger i = new BigInteger("3"); n.divide(two).compareTo(i) > 0; i = i.add(two)) {
+			if (n.mod(i).equals(zero)) {
+				return false;
+			}
+		}
+		return true;
 	}
 }
