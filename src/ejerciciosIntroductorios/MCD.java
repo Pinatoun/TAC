@@ -6,11 +6,16 @@ import java.util.ArrayList;
 public class MCD {
 
 	public static void main(String[] args) {
-		BigInteger n1 = new BigInteger("4515");
-		BigInteger n2 = new BigInteger("675");
-		System.out.println(descomposicion(n1, n2));
+		BigInteger n1 = new BigInteger("51386512");
+		BigInteger n2 = new BigInteger("94879483460336965498836");
+		double time1 = System.nanoTime();
 		System.out.println(euclides(n1, n2));
-
+		double time2 = System.nanoTime();
+		System.out.println("Execution time for the euclides algorithm(miliseconds): "+((time2-time1)/1000000));
+		time1 = System.nanoTime();
+		System.out.println(descomposicion(n1, n2));
+		time2 = System.nanoTime();
+		System.out.println("Execution time for the descomposition algorithm (miliseconds): "+((time2-time1)/1000000));
 	}
 
 	public static BigInteger descomposicion(BigInteger n1, BigInteger n2) {
@@ -31,13 +36,13 @@ public class MCD {
 			if (zero.equals(n1.mod(divisor))) {
 				n1 = n1.divide(divisor);
 				divisores1.add(divisor);
-				System.out.println("n1    " + divisor);
+				//System.out.println("n1    " + divisor);
 			}
 			// Si el segundo numero es divisible entre el divisor
 			if (zero.equals(n2.mod(divisor))) {
 				n2 = n2.divide(divisor);
 				divisores2.add(divisor);
-				System.out.println("n2    " + divisor);
+				//System.out.println("n2    " + divisor);
 			}
 		}
 		// Recorremos las dos listas de divisores
@@ -59,8 +64,7 @@ public class MCD {
 
 	// Metodo de euclides para calcular el mcd
 	public static BigInteger euclides(BigInteger n1, BigInteger n2) {
-		BigInteger zero = new BigInteger("0"), mcd = new BigInteger("1"), divisor, dividendo;
-		BigInteger [] resultado;
+		BigInteger zero = new BigInteger("0"), divisor, dividendo, resto;
 		// Seleccionamos el mayor de los dos numeros como dividendo y el otro como divisor
 		if(n1.compareTo(n2) < 0) {
 			divisor = n1;
@@ -69,32 +73,47 @@ public class MCD {
 			divisor = n2;
 			dividendo = n1;
 		}else return n1; // Si son iguales devolvemos ese numero
-		mcd = divisor;
 		// Mientras el resto sea distinto de cero no habremos encontrado el mcd
 		while(!zero.equals(dividendo.mod(divisor))) {
-			System.out.println("divisor"+divisor);
-			System.out.println("dividendo"+dividendo);
-			resultado = dividendo.divideAndRemainder(divisor);
-			divisor = resultado[0];
-			dividendo = resultado[1];
-			mcd = dividendo;
+			resto = dividendo.mod(divisor);
+			dividendo = divisor;
+			divisor = resto;
 		}
-		return mcd;
+		return divisor;
 	}
 	
-
+	// Metodo que determina cual es el siguiente numero primo al proporcionado
 	public static BigInteger siguientePrimo(BigInteger n){
-		boolean salir = false;
+		// Vamos sumando 1 al numero proporcionado hasta encontrar un numero primo
 		do{
-			salir = true;
 			n = n.add(new BigInteger("1"));
-			for (BigInteger i = new BigInteger("2"); n.divide(new BigInteger("2")).compareTo(i) > 0; i = i.add(new BigInteger("1"))) {
-				if (n.mod(i).equals(new BigInteger("0"))) {
-					salir = false;
-					break;
-				}
-			}
-		}while(!salir);
+		}while(!isPrimo2(n));
 		return n;
+	}
+
+	// Metodo que determina si un numero es primo con pasos de 1
+	public static boolean isPrimo1(BigInteger n) {
+		BigInteger zero = new BigInteger("0"), one = new BigInteger("1"), two = new BigInteger("2");
+		// Comprobamos si es divisible por algun numero desde 2 hasta n/2
+		for (BigInteger i = new BigInteger("2"); n.divide(two).compareTo(i) > 0; i = i.add(one)) {
+			if (n.mod(i).equals(zero)) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	// Metodo que determina si un numero es primo con pasos de 2
+	public static boolean isPrimo2(BigInteger n) {
+		BigInteger zero = new BigInteger("0"), two = new BigInteger("2");
+		// Si es divisible por dos no es primo
+		if(n.divide(two).equals(zero)) return false;
+		// Comprobamos si es divisible por algun numero impar desde 3 hasta n/2
+		for (BigInteger i = new BigInteger("3"); n.divide(two).compareTo(i) > 0; i = i.add(two)) {
+			if (n.mod(i).equals(zero)) {
+				return false;
+			}
+		}
+		return true;
 	}
 }
