@@ -91,7 +91,7 @@ public class MCD {
 		return n; //1
 	}
 
-	// Metodo que determina si un numero es primo con pasos de 1 | T(n) = 3+1+3+n(2+3+2) = 7+7n
+	// Metodo que determina si un numero es primo con pasos de 1 | T(n) = 3+1+3+n(2+3+2)+1 = 8+7n
 	public static boolean isPrimo1(BigInteger n) {
 		BigInteger zero = new BigInteger("0"), one = new BigInteger("1"), two = new BigInteger("2"); //3
 		// Comprobamos si es divisible por algun numero desde 2 hasta n/2
