@@ -88,7 +88,7 @@ public class MCD {
 		do{
 			n = n.add(new BigInteger("1")); //2
 		}while(!isPrimo2(n)); // n(1+1) o n(1+p)??
-		return n;
+		return n; //1
 	}
 
 	// Metodo que determina si un numero es primo con pasos de 1 | T(n) = 3+1+3+n(2+3+2) = 7+7n
