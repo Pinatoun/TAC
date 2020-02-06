@@ -86,7 +86,7 @@ public class MCD {
 	public static BigInteger siguientePrimo(BigInteger n){
 		// Vamos sumando 1 al numero proporcionado hasta encontrar un numero primo
 		do{
-			n = n.add(new BigInteger("1")); //1
+			n = n.add(new BigInteger("1")); //2
 		}while(!isPrimo2(n)); // n(1+1) o n(1+p)??
 		return n;
 	}
