@@ -91,11 +91,11 @@ public class MCD {
 		return n; //1
 	}
 
-	// Metodo que determina si un numero es primo con pasos de 1 | T(n) = 6+2+3+n(2+3+2)+1 = 12+7n
+	// Metodo que determina si un numero es primo con pasos de 1 | T(n) = 6+2+3+(n/2)(2+3+2)+1 = 12+7n/2
 	public static boolean isPrimo1(BigInteger n) {
 		BigInteger zero = new BigInteger("0"), one = new BigInteger("1"), two = new BigInteger("2"); //6
 		// Comprobamos si es divisible por algun numero desde 2 hasta n
-		for (BigInteger i = new BigInteger("2"); n.divide(two).compareTo(i) > 0; i = i.add(one)) { //2+3+n/2(2+3+2)
+		for (BigInteger i = new BigInteger("2"); n.divide(two).compareTo(i) > 0; i = i.add(one)) { //2+3+(n/2)(2+3+2)
 			if (n.mod(i).equals(zero)) {
 				return false;
 			}
