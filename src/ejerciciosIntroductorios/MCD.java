@@ -18,7 +18,7 @@ public class MCD {
 		System.out.println("Execution time for the descomposition algorithm (miliseconds): "+((time2-time1)/1000000));
 	}
 
-	// T(n) = 6+4+2+3+5+7n+5n+15n^2+(7/4)n^3-5-15n-(7/4)n^2+10+1+1+5+3+3+3+1+1+1 = 44-3n+(53/2)n^2+(7/4)n^3
+	// T(n) = 6+4+2+3+5+7n+5n+15n^2+(7/4)n^3-5-15n-(7/4)n^2+10+1+1+5+3+3+3+1+1+1 = 44-3n+(53/4)n^2+(7/4)n^3
 	public static BigInteger descomposicion(BigInteger n1, BigInteger n2) {
 		BigInteger divisor = new BigInteger("2"), zero = new BigInteger("0"), one = new BigInteger("1"); //6
 		ArrayList<BigInteger> divisores1 = new ArrayList<BigInteger>(), divisores2 = new ArrayList<BigInteger>(); //4
