@@ -1,21 +1,46 @@
 package ejerciciosIntroductorios;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.math.BigInteger;
 import java.util.ArrayList;
 
 public class MCD {
 
 	public static void main(String[] args) {
-		BigInteger n1 = new BigInteger("51386512");
-		BigInteger n2 = new BigInteger("94879483460336965498836");
+		double [] result;
+		try {
+			FileWriter myWriter = new FileWriter("results.csv");
+			myWriter.write("Euclides;Descomposicion\n");
+			for (int i = 0; i < 7; i++) {
+				BigInteger n1 = new BigInteger(""+(int)((int)(Math.random()*(Math.pow(10, i)))+Math.pow(10, i+1)));
+				BigInteger n2 = new BigInteger(""+(int)((int)(Math.random()*(Math.pow(10, i)))+Math.pow(10, i+1)));
+				System.out.println("n1: "+n1);
+				System.out.println("n2 "+n2);
+				result = test(n1, n2);
+				myWriter.write(""+result[0]+";"+result[1]+"\n");
+				System.out.println("Euclides: "+result[0]+" Descomposition: "+result[1]);
+			}
+			myWriter.close();
+		  } catch (IOException e) {
+			System.out.println("An error occurred.");
+			e.printStackTrace();
+		  }
+
+	}
+
+	public static double[] test(BigInteger n1, BigInteger n2){
 		double time1 = System.nanoTime();
 		System.out.println(euclides(n1, n2));
 		double time2 = System.nanoTime();
-		System.out.println("Execution time for the euclides algorithm(miliseconds): "+((time2-time1)/1000000));
+		double euclides = ((time2-time1)/1000000);
+		System.out.println("Execution time for the euclides algorithm(miliseconds): "+euclides);
 		time1 = System.nanoTime();
 		System.out.println(descomposicion(n1, n2));
 		time2 = System.nanoTime();
-		System.out.println("Execution time for the descomposition algorithm (miliseconds): "+((time2-time1)/1000000));
+		double descomposition = ((time2-time1)/1000000);
+		System.out.println("Execution time for the descomposition algorithm (miliseconds): "+descomposition);
+		return new double[] {euclides, descomposition};
 	}
 
 	public static BigInteger descomposicion(BigInteger n1, BigInteger n2) {
