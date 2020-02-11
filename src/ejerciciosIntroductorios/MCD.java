@@ -14,9 +14,36 @@ public class MCD {
 			myWriter.write("Entrada;Euclides;Descomposicion\n");
 			FileWriter myWriter2 = new FileWriter("resultsPrimos.csv");
 			myWriter2.write("Entrada;Primo1;Primo2\n");
-			for (int i = 1; i < 8; i++) {
+			for (int i = 1; i < 10; i++) {
 				BigInteger n1 = new BigInteger(""+(int)((int)(Math.random()*(Math.pow(10, i)))));
 				BigInteger n2 = new BigInteger(""+(int)((int)(Math.random()*(Math.pow(10, i)))));
+				System.out.println("n1: "+n1);
+				System.out.println("n2 "+n2);
+				result = test(n1, n2);
+				myWriter.write(("n1: "+n1+" n2: "+n2+";"+result[0]+";"+result[1]+"\n").replace('.', ','));
+				System.out.println("Euclides: "+result[0]+" Descomposition: "+result[1]);
+				result = testPrimos(n1);
+				myWriter2.write((""+n1+";"+result[0]+";"+result[1]+"\n").replace('.', ','));
+				System.out.println("Primo1: "+result[0]+" Primo2: "+result[1]);
+				result = testPrimos(n2);
+				myWriter2.write((""+n2+";"+result[0]+";"+result[1]+"\n").replace('.', ','));
+				System.out.println("Primo1: "+result[0]+" Primo2: "+result[1]);
+			}
+			myWriter.close();
+			myWriter2.close();
+		  } catch (IOException e) {
+			System.out.println("An error occurred.");
+			e.printStackTrace();
+		  }
+
+		  try {
+			FileWriter myWriter = new FileWriter("resultsProgresive.csv");
+			myWriter.write("Entrada;Euclides;Descomposicion\n");
+			FileWriter myWriter2 = new FileWriter("resultsProgresivePrimos.csv");
+			myWriter2.write("Entrada;Primo1;Primo2\n");
+			for (int i = 0; i < 2000; i++) {
+				BigInteger n1 = new BigInteger(""+i);
+				BigInteger n2 = new BigInteger(""+i);
 				System.out.println("n1: "+n1);
 				System.out.println("n2 "+n2);
 				result = test(n1, n2);
