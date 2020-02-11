@@ -1,21 +1,69 @@
 package ejerciciosIntroductorios;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.math.BigInteger;
 import java.util.ArrayList;
 
 public class MCD {
 
 	public static void main(String[] args) {
-		BigInteger n1 = new BigInteger("11");
-		BigInteger n2 = new BigInteger("11");
+		double [] result;
+		try {
+			FileWriter myWriter = new FileWriter("results.csv");
+			myWriter.write("Entrada;Euclides;Descomposicion\n");
+			FileWriter myWriter2 = new FileWriter("resultsPrimos.csv");
+			myWriter2.write("Entrada;Primo1;Primo2\n");
+			for (int i = 1; i < 8; i++) {
+				BigInteger n1 = new BigInteger(""+(int)((int)(Math.random()*(Math.pow(10, i)))));
+				BigInteger n2 = new BigInteger(""+(int)((int)(Math.random()*(Math.pow(10, i)))));
+				System.out.println("n1: "+n1);
+				System.out.println("n2 "+n2);
+				result = test(n1, n2);
+				myWriter.write(("n1: "+n1+" n2: "+n2+";"+result[0]+";"+result[1]+"\n").replace('.', ','));
+				System.out.println("Euclides: "+result[0]+" Descomposition: "+result[1]);
+				result = testPrimos(n1);
+				myWriter2.write((""+n1+";"+result[0]+";"+result[1]+"\n").replace('.', ','));
+				System.out.println("Primo1: "+result[0]+" Primo2: "+result[1]);
+				result = testPrimos(n2);
+				myWriter2.write((""+n2+";"+result[0]+";"+result[1]+"\n").replace('.', ','));
+				System.out.println("Primo1: "+result[0]+" Primo2: "+result[1]);
+			}
+			myWriter.close();
+			myWriter2.close();
+		  } catch (IOException e) {
+			System.out.println("An error occurred.");
+			e.printStackTrace();
+		  }
+
+	}
+
+	public static double[] test(BigInteger n1, BigInteger n2){
 		double time1 = System.nanoTime();
 		System.out.println(euclides(n1, n2));
 		double time2 = System.nanoTime();
-		System.out.println("Execution time for the euclides algorithm(miliseconds): "+((time2-time1)/1000000));
+		double euclides = ((time2-time1)/1000000);
+		System.out.println("Execution time for the euclides algorithm(miliseconds): "+euclides);
 		time1 = System.nanoTime();
 		System.out.println(descomposicion(n1, n2));
 		time2 = System.nanoTime();
-		System.out.println("Execution time for the descomposition algorithm (miliseconds): "+((time2-time1)/1000000));
+		double descomposition = ((time2-time1)/1000000);
+		System.out.println("Execution time for the descomposition algorithm (miliseconds): "+descomposition);
+		return new double[] {euclides, descomposition};
+	}
+
+	public static double[] testPrimos(BigInteger n1){
+		double time1 = System.nanoTime();
+		System.out.println(isPrimo1(n1));
+		double time2 = System.nanoTime();
+		double primo1 = ((time2-time1)/1000000);
+		System.out.println("Execution time for the primo1 algorithm(miliseconds): "+primo1);
+		time1 = System.nanoTime();
+		System.out.println(isPrimo2(n1));
+		time2 = System.nanoTime();
+		double primo2 = ((time2-time1)/1000000);
+		System.out.println("Execution time for the primo2 algorithm (miliseconds): "+primo2);
+		return new double[] {primo1, primo2};
 	}
 
 	// T(n) = 6+4+2+3+5+7n+5n+15n^2+(7/4)n^3-5-15n-(7/4)n^2+10+1+1+5+3+3+3+1+1+1 = 44-3n+(53/4)n^2+(7/4)n^3
