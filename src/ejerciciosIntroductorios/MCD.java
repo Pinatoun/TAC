@@ -15,8 +15,43 @@ public class MCD {
 			FileWriter myWriter2 = new FileWriter("resultsPrimos.csv");
 			myWriter2.write("Entrada;Primo1;Primo2\n");
 			for (int i = 1; i < 8; i++) {
-				BigInteger n1 = new BigInteger(""+(int)((int)(Math.random()*(Math.pow(10, i)))));
-				BigInteger n2 = new BigInteger(""+(int)((int)(Math.random()*(Math.pow(10, i)))));
+				for (int j = 0; j < 20; j++) {
+					BigInteger n1 = new BigInteger(""+(int)((int)(Math.random()*(Math.pow(10, i)))));
+					BigInteger n2 = new BigInteger(""+(int)((int)(Math.random()*(Math.pow(10, i)))));
+					if(n1.equals(new BigInteger("0"))){
+						n1 = new BigInteger("1");
+					}			
+					if(n2.equals(new BigInteger("0"))){
+						n2 = new BigInteger("1");
+					}
+					System.out.println("n1: "+n1);
+					System.out.println("n2 "+n2);
+					result = test(n1, n2);
+					myWriter.write(("n1: "+n1+" n2: "+n2+";"+result[0]+";"+result[1]+"\n").replace('.', ','));
+					System.out.println("Euclides: "+result[0]+" Descomposition: "+result[1]);
+					result = testPrimos(n1);
+					myWriter2.write((""+n1+";"+result[0]+";"+result[1]+"\n").replace('.', ','));
+					System.out.println("Primo1: "+result[0]+" Primo2: "+result[1]);
+					result = testPrimos(n2);
+					myWriter2.write((""+n2+";"+result[0]+";"+result[1]+"\n").replace('.', ','));
+					System.out.println("Primo1: "+result[0]+" Primo2: "+result[1]);
+				}
+			}
+			myWriter.close();
+			myWriter2.close();
+		  } catch (IOException e) {
+			System.out.println("An error occurred.");
+			e.printStackTrace();
+		  }
+
+		  try {
+			FileWriter myWriter = new FileWriter("resultsProgresive.csv");
+			myWriter.write("Entrada;Euclides;Descomposicion\n");
+			FileWriter myWriter2 = new FileWriter("resultsProgresivePrimos.csv");
+			myWriter2.write("Entrada;Primo1;Primo2\n");
+			for (int i = 0; i < 20000; i++) {
+				BigInteger n1 = new BigInteger(""+i);
+				BigInteger n2 = new BigInteger(""+i);
 				System.out.println("n1: "+n1);
 				System.out.println("n2 "+n2);
 				result = test(n1, n2);
@@ -73,7 +108,7 @@ public class MCD {
 		BigInteger mcd = new BigInteger("1"); //2
 		if(n1.equals(zero ) || n2.equals(zero)) return zero; //3
 		// Bucle donde entra mientras todavia puedan dividirse
-		while (!n1.equals(one) || !n2.equals(one)) { //5+7n+(n-1)(1+1+3+15n+(7/4)n^2)+2+2+1+2+2+1 (peor caso, ambos son el mismo numero primo)
+		while (!n1.equals(one) && !n2.equals(one)) { //5+7n+(n-1)(1+1+3+15n+(7/4)n^2)+2+2+1+2+2+1 (peor caso, ambos son el mismo numero primo)
 			// Si ninguno de los dos es divisible por el divisor, buscamos el siguiente
 			// numero primo
 			if (!zero.equals(n1.mod(divisor)) && !zero.equals(n2.mod(divisor))) {
@@ -130,11 +165,14 @@ public class MCD {
 		return divisor; //1
 	}
 	
-	// Metodo que determina cual es el siguiente numero primo al proporcionado |T(n) = 2+n(2+12+7n/4+1)+1 = 3+15n+(7/4)n^2
+	// Metodo que determina cual es el siguiente numero primo al proporcionado |T(n) = 1+2+2+n(2+12+7n/4+1)+1 = 6+15n+(7/4)n^2
 	public static BigInteger siguientePrimo(BigInteger n){
-		// Vamos sumando 1 al numero proporcionado hasta encontrar un numero primo
+		if (new BigInteger("0").equals(n.mod(new BigInteger("2")))) {//1
+			n = n.subtract(new BigInteger("1")); //2
+		}
+		// Vamos sumando 2 al numero proporcionado hasta encontrar un numero primo
 		do{
-			n = n.add(new BigInteger("1")); //2
+			n = n.add(new BigInteger("2")); //2
 		}while(!isPrimo2(n)); // n(2+12+7n/4+1)
 		return n; //1
 	}
