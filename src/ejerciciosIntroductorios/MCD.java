@@ -103,15 +103,16 @@ public class MCD {
 
 	// T(n) = 6+4+2+3+5+7n+5n+15n^2+(7/4)n^3-5-15n-(7/4)n^2+10+1+1+5+3+3+3+1+1+1 = 44-3n+(53/4)n^2+(7/4)n^3
 	public static BigInteger descomposicion(BigInteger n1, BigInteger n2) {
-		BigInteger divisor = new BigInteger("2"), zero = new BigInteger("0"), one = new BigInteger("1"); //6
+		BigInteger divisor = new BigInteger("2"), zero = new BigInteger("0"), one = new BigInteger("1"), lastPrimo = one; //6
 		ArrayList<BigInteger> divisores1 = new ArrayList<BigInteger>(), divisores2 = new ArrayList<BigInteger>(); //4
 		BigInteger mcd = new BigInteger("1"); //2
 		if(n1.equals(zero ) || n2.equals(zero)) return zero; //3
 		// Bucle donde entra mientras todavia puedan dividirse
-		while (!n1.equals(one) && !n2.equals(one)) { //5+7n+(n-1)(1+1+3+15n+(7/4)n^2)+2+2+1+2+2+1 (peor caso, ambos son el mismo numero primo)
+		while (!n1.equals(one) && !n2.equals(one) && divisor.compareTo(n1.divide(lastPrimo)) <= 0 && divisor.compareTo(n2.divide(lastPrimo)) <= 0) { //5+7n+(n-1)(1+1+3+15n+(7/4)n^2)+2+2+1+2+2+1 (peor caso, ambos son el mismo numero primo)
 			// Si ninguno de los dos es divisible por el divisor, buscamos el siguiente
 			// numero primo
 			if (!zero.equals(n1.mod(divisor)) && !zero.equals(n2.mod(divisor))) {
+				lastPrimo = divisor;
 				divisor = siguientePrimo(divisor);
 				continue;
 			}
@@ -126,6 +127,22 @@ public class MCD {
 				n2 = n2.divide(divisor);
 				divisores2.add(divisor);
 				//System.out.println("n2    " + divisor);
+			}
+		}
+		if(!n1.equals(one) && !n2.equals(one)) {
+			if (zero.equals(n1.mod(n2))) {
+				divisores1.add(n2);
+				divisores2.add(n2);
+				//System.out.println("n1    " + divisor);
+			}
+			// Si el segundo numero es divisible entre el divisor
+			else if (zero.equals(n2.mod(n1))) {
+				divisores1.add(n1);
+				divisores2.add(n1);
+				//System.out.println("n2    " + divisor);
+			}else {
+				divisores1.add(n1);
+				divisores2.add(n2);
 			}
 		}
 		// Recorremos las dos listas de divisores
