@@ -9,15 +9,23 @@ public class MCD {
 
 	public static void main(String[] args) {
 		double [] result;
+		BigInteger n1, n2;
+		String s1, s2;
 		try {
 			FileWriter myWriter = new FileWriter("results.csv");
 			myWriter.write("Entrada;Euclides;Descomposicion\n");
-			FileWriter myWriter2 = new FileWriter("resultsPrimos.csv");
-			myWriter2.write("Entrada;Primo1;Primo2\n");
-			for (int i = 1; i < 8; i++) {
+			/*FileWriter myWriter2 = new FileWriter("resultsPrimos.csv");
+			myWriter2.write("Entrada;Primo1;Primo2\n");*/
+			for (int i = 1; i < 20; i++) {
 				for (int j = 0; j < 20; j++) {
-					BigInteger n1 = new BigInteger(""+(int)((int)(Math.random()*(Math.pow(10, i)))));
-					BigInteger n2 = new BigInteger(""+(int)((int)(Math.random()*(Math.pow(10, i)))));
+					s1 = "";
+					s2 = "";
+					for (int k = 0; k < i; k++) {
+						s1 += (int)(Math.random()*10);
+						s2 += (int)(Math.random()*10);
+					}
+					n1 = new BigInteger(s1);
+					n2 = new BigInteger(s2);
 					if(n1.equals(new BigInteger("0"))){
 						n1 = new BigInteger("1");
 					}			
@@ -28,30 +36,30 @@ public class MCD {
 					System.out.println("n2 "+n2);
 					result = test(n1, n2);
 					myWriter.write(("n1: "+n1+" n2: "+n2+";"+result[0]+";"+result[1]+"\n").replace('.', ','));
-					System.out.println("Euclides: "+result[0]+" Descomposition: "+result[1]);
+					/*System.out.println("Euclides: "+result[0]+" Descomposition: "+result[1]);
 					result = testPrimos(n1);
 					myWriter2.write((""+n1+";"+result[0]+";"+result[1]+"\n").replace('.', ','));
 					System.out.println("Primo1: "+result[0]+" Primo2: "+result[1]);
 					result = testPrimos(n2);
 					myWriter2.write((""+n2+";"+result[0]+";"+result[1]+"\n").replace('.', ','));
-					System.out.println("Primo1: "+result[0]+" Primo2: "+result[1]);
+					System.out.println("Primo1: "+result[0]+" Primo2: "+result[1]);*/
 				}
 			}
 			myWriter.close();
-			myWriter2.close();
+			//myWriter2.close();
 		  } catch (IOException e) {
 			System.out.println("An error occurred.");
 			e.printStackTrace();
 		  }
 
-		  try {
+		 /* try {
 			FileWriter myWriter = new FileWriter("resultsProgresive.csv");
 			myWriter.write("Entrada;Euclides;Descomposicion\n");
 			FileWriter myWriter2 = new FileWriter("resultsProgresivePrimos.csv");
 			myWriter2.write("Entrada;Primo1;Primo2\n");
-			for (int i = 0; i < 20000; i++) {
-				BigInteger n1 = new BigInteger(""+i);
-				BigInteger n2 = new BigInteger(""+i);
+			for (BigInteger i = new BigInteger("0"); i.compareTo(new BigInteger("20000000000000")) < 0; i = i.add(new BigInteger("1"))) {
+				n1 = new BigInteger(""+i);
+				n2 = new BigInteger(""+i);
 				System.out.println("n1: "+n1);
 				System.out.println("n2 "+n2);
 				result = test(n1, n2);
@@ -63,13 +71,13 @@ public class MCD {
 				result = testPrimos(n2);
 				myWriter2.write((""+n2+";"+result[0]+";"+result[1]+"\n").replace('.', ','));
 				System.out.println("Primo1: "+result[0]+" Primo2: "+result[1]);
-			}
+		/*	}
 			myWriter.close();
-			myWriter2.close();
+			//myWriter2.close();
 		  } catch (IOException e) {
 			System.out.println("An error occurred.");
 			e.printStackTrace();
-		  }
+		  }*/
 
 	}
 
@@ -193,7 +201,7 @@ public class MCD {
 	public static boolean isPrimo2(BigInteger n) {
 		BigInteger zero = new BigInteger("0"), two = new BigInteger("2"); //4
 		// Si es divisible por dos no es primo
-		if(n.divide(two).equals(zero)) return false; //2
+		if(n.mod(two).equals(zero)) return false; //2
 		// Comprobamos si es divisible por algun numero impar desde 3 hasta n/2
 		for (BigInteger i = new BigInteger("3"); n.divide(two).compareTo(i) > 0; i = i.add(two)) { //2+3+(n/4)(2+3+2)
 			if (n.mod(i).equals(zero)) {
